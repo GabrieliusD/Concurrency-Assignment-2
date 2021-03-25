@@ -31,7 +31,7 @@ public class udpClientHelper {
 
     public boolean validateInput(String input)
     {
-        Pattern pattern = Pattern.compile("^\\s*([-+]?)(\\d+)(?:\\s*([-+*\\/])\s*((?:\\s[-+])?\\d+)\\s*)+$");
+        Pattern pattern = Pattern.compile("^\\s*([-+]?)(\\d+.\\d+|\\d)(?:\\s*([-+*\\/])\\s*((?:\\s[-+])?\\d+.\\d+|\\d)\\s*)+$");
         Matcher matcher = pattern.matcher(input);
         if(matcher.find())
         return true; 

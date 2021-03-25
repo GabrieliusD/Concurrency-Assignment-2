@@ -1,5 +1,4 @@
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class tcpServer {
     static final String port = "2000";
