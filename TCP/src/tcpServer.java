@@ -1,5 +1,34 @@
 import java.net.ServerSocket;
+class MultiThreadSupport extends Thread
+{
+    protected tcpSocket client;
+    MultiThreadSupport(tcpSocket client)
+    {
+        System.out.println("Client has Connected");
+        this.client = client;
+    }
 
+    @Override
+    public void run() {
+        try {
+            
+            while(true)
+            {
+                String message = client.receiveMessage();
+                if(message.contains("exit")) break;
+                System.out.println("Client send: " + message);
+
+                double answ = tcpServerHelper.evaluateExpression(message);
+
+                client.sendOperations(Double.toString(answ));
+            }
+            client.close();
+            System.out.println("Client Disconnected");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+}
 public class tcpServer {
     static final String port = "2000";
     static final String host = "localhost";
@@ -9,17 +38,12 @@ public class tcpServer {
             ServerSocket serverSocket = new ServerSocket(Integer.parseInt(port));
             while(true)
             {
+                System.out.println("Waiting for the client");
                 tcpSocket clientSocket = new tcpSocket(serverSocket.accept());
-                System.out.println("connected to the client");
-
-                String message;
-                message = clientSocket.receiveMessage();
-                System.out.println("Client send: " + message);
-                System.out.println("got equation");
-                int answ = tcpServerHelper.evaluateExpression(message);
-
-                clientSocket.sendOperations(Integer.toString(answ));
+                
+                MultiThreadSupport threaded = new MultiThreadSupport(clientSocket);
+                threaded.start();
             } 
-        } catch(Exception e) {}
+        } catch(Exception e) {e.getMessage();}
     }
 }

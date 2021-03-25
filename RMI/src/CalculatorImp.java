@@ -1,38 +1,45 @@
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class CalculatorImp implements Calculator{
 
-    @Override
-    public String calculate(String equation) {
-        return Integer.toString(evaluateExpression(equation));
+    double firstNum = 0;
+    double secondNum = 0;
+
+    void getNumbers(String input)
+    {
+        Scanner sc = new Scanner(input);
         
+        firstNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        sc.findInLine("[^0-9 .]").trim();
+        secondNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        sc.close();
     }
 
-    public int evaluateExpression(String expression)
-    {
-        
-        Scanner sc = new Scanner(expression);
+    @Override
+    public String Add(String input) throws RemoteException {
+        getNumbers(input);
+        double answ = firstNum+secondNum;
+        return "The answer to Adding is: " + Double.toString(answ);
+    }
 
-        int firstValue = Integer.parseInt(sc.findInLine("[0-9]*"));
+    @Override
+    public String Subtract(String input) throws RemoteException {
+        getNumbers(input);
+        double answ = firstNum-secondNum;
+        return "The answer to Subtracting is: " + Double.toString(answ);
+    }
 
-        // get everything which follows and is not a number (might contain white spaces)
-        String operator = sc.findInLine("[^0-9]|\\d+.\\d+*").trim();
-        int secondValue = Integer.parseInt(sc.findInLine("[0-9]*"));
-        switch (operator){
-            case "+":
-                return firstValue + secondValue;
-            case "-":
-                return firstValue - secondValue;
-            case "/":
-                return firstValue / secondValue;
-            case "*":
-                return firstValue * secondValue;
-            case "%":
-                return firstValue % secondValue;
-            // todo: add additional operators as needed..
-            default:
-                throw new RuntimeException("unknown operator: "+operator);
-        }
+    @Override
+    public String Multiply(String input) throws RemoteException {
+        getNumbers(input);
+        return "The answer to Multiplication is: " + Double.toString(firstNum*secondNum);
+    }
+
+    @Override
+    public String Divide(String input) throws RemoteException {
+        getNumbers(input);
+        return "The answer to Division is: " + Double.toString(firstNum/secondNum);
     }
     
 }

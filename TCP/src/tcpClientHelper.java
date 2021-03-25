@@ -32,7 +32,7 @@ public class tcpClientHelper {
     }
     public boolean validateInput(String input)
     {
-        Pattern pattern = Pattern.compile("^\\s*([-+]?)(\\d+)(?:\\s*([-+*\\/])\s*((?:\\s[-+])?\\d+)\\s*)+$");
+        Pattern pattern = Pattern.compile("^(?:\\d+|\\d+[.]\\d+)[*+-\\/](?:\\d+|\\d+[.]\\d+)$");
         Matcher matcher = pattern.matcher(input);
         if(matcher.find())
         return true; 

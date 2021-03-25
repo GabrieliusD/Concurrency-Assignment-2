@@ -9,18 +9,23 @@ public class tcpClient {
 
         try{
             tcpClientHelper helper = new tcpClientHelper(host, port);
-            String input;
-            do{
-                System.out.println("Enter valid input");
-                input = br.readLine();
+            while(true)
+            {
+                System.out.println("Enter valid input for example 5+5 or type exit to quit");
+                String input = br.readLine();
+                if(input.contains("exit")) {helper.SendEquation(input); break;}
+                if(!helper.validateInput(input)) continue;
+
+                helper.SendEquation(input);
+                System.out.println("the answer is: " + helper.getAnswer());
+
             }
-            while(!helper.validateInput(input));
 
-            helper.SendEquation(input);
-            System.out.println(helper.getAnswer());
-
+            helper.close();
             
         } catch(IOException e) {}
+
+        System.out.println("Program End");
     }
 
 

@@ -32,6 +32,7 @@ public class udpServer {
         // get everything which follows and is not a number (might contain white spaces)
         String operator = sc.findInLine("[^0-9]*").trim();
         int secondValue = Integer.parseInt(sc.findInLine("[0-9]*"));
+        sc.close();
         switch (operator){
             case "+":
                 return firstValue + secondValue;

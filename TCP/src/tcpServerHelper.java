@@ -1,27 +1,24 @@
 import java.util.Scanner;
 
 public class tcpServerHelper {
-    public static int evaluateExpression(String expression)
+    public static double evaluateExpression(String expression)
     {
         Scanner sc = new Scanner(expression);
 
-        int firstValue = Integer.parseInt(sc.findInLine("[0-9]*"));
-
-        // get everything which follows and is not a number (might contain white spaces)
-        String operator = sc.findInLine("[^0-9]*").trim();
-        int secondValue = Integer.parseInt(sc.findInLine("[0-9]*"));
+        double firstNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        String operator = sc.findInLine("[^0-9 .]").trim();
+        double secondNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        sc.close();
         switch (operator){
             case "+":
-                return firstValue + secondValue;
+                return firstNum + secondNum;
             case "-":
-                return firstValue - secondValue;
+                return firstNum - secondNum;
             case "/":
-                return firstValue / secondValue;
+                return firstNum / secondNum;
             case "*":
-                return firstValue * secondValue;
-            case "%":
-                return firstValue % secondValue;
-            // todo: add additional operators as needed..
+                return firstNum * secondNum;
+
             default:
                 throw new RuntimeException("unknown operator: "+operator);
         }
