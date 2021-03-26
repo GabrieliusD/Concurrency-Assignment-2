@@ -10,17 +10,20 @@ public class udpClient {
         try
         {
             udpClientHelper helper = new udpClientHelper(host, port);
-            String input;
-            do
+            while(true)
             {
-                System.out.println("enter valid input");
-                input = br.readLine();
+                System.out.println("Enter valid input for example 5+5 or type exit to quit");
+                String input = br.readLine();
+                if(input.contains("exit")) break;
+                if(!helper.validateInput(input)) continue;
 
-            } while(!helper.validateInput(input));
+                helper.SendEquation(input);
+                System.out.println("the answer is: " + helper.receiveAnswer());
 
-            helper.SendEquation(input);
+            }
 
-            System.out.println(helper.receiveAnswer());
+            helper.close();
+
         } catch (Exception e) {}
     }
 }

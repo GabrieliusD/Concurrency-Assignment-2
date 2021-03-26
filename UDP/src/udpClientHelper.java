@@ -3,38 +3,34 @@ import java.net.*;
 import java.util.regex.*;
 
 public class udpClientHelper {
-    final DatagramSocket socket;
-    final InetAddress serverHost;
-    final int serverPort;
+    final udpSocket socket;
+
     udpClientHelper(String hostname, String port) throws Exception
     {
-        socket = new DatagramSocket();
-        serverHost = InetAddress.getByName(hostname);
-        serverPort = Integer.parseInt(port);
+        socket = new udpSocket(hostname, port);
     }
 
     public void SendEquation(String input) throws IOException
     {
-        byte buff[] = input.getBytes();
-        DatagramPacket packet = new DatagramPacket(buff, buff.length, serverHost, serverPort);
-        socket.send(packet);
+        socket.SendEquation(input);
     }
 
     public String receiveAnswer() throws SocketException, IOException
     {
-        byte buff[] = new byte[socket.getReceiveBufferSize()];
-        DatagramPacket packet = new DatagramPacket(buff, buff.length);
-        
-        socket.receive(packet);
-        return new String(packet.getData());
+        return new String(socket.receiveAnswer().getData());
     }
 
     public boolean validateInput(String input)
     {
-        Pattern pattern = Pattern.compile("^\\s*([-+]?)(\\d+.\\d+|\\d)(?:\\s*([-+*\\/])\\s*((?:\\s[-+])?\\d+.\\d+|\\d)\\s*)+$");
+        Pattern pattern = Pattern.compile("^(?:\\d+|\\d+[.]\\d+)[*+-\\/](?:\\d+|\\d+[.]\\d+)$");
         Matcher matcher = pattern.matcher(input);
         if(matcher.find())
         return true; 
         else return false;
+    }
+
+    public void close()
+    {
+        socket.close();
     }
 }
