@@ -1,5 +1,6 @@
 import java.io.*;
 
+import Commons.Common;
 public class tcpClient {
     static final String port = "2000";
     static final String host = "localhost";
@@ -14,7 +15,7 @@ public class tcpClient {
                 System.out.println("Enter valid input for example 5+5 or type exit to quit");
                 String input = br.readLine();
                 if(input.contains("exit")) {helper.SendEquation(input); break;}
-                if(!helper.validateInput(input)) continue;
+                if(!Common.validateInput(input)) continue;
 
                 helper.SendEquation(input);
                 System.out.println("the answer is: " + helper.getAnswer());
@@ -27,6 +28,6 @@ public class tcpClient {
 
         System.out.println("Program End");
     }
-
+    
 
 }

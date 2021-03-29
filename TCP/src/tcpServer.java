@@ -1,4 +1,6 @@
 import java.net.ServerSocket;
+
+import Commons.Common;
 class MultiThreadSupport extends Thread
 {
     protected tcpSocket client;
@@ -18,9 +20,9 @@ class MultiThreadSupport extends Thread
                 if(message.contains("exit")) break;
                 System.out.println("Client send: " + message);
 
-                double answ = tcpServerHelper.evaluateExpression(message);
+                double answ = Common.evaluateExpression(message);
 
-                client.sendOperations(Double.toString(answ));
+                client.sendOperations(String.format("%.8f", answ));
             }
             client.close();
             System.out.println("Client Disconnected");

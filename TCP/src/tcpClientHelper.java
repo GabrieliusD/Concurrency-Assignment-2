@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import Commons.Common;
 
 public class tcpClientHelper {
     final tcpSocket socket;
@@ -23,19 +23,11 @@ public class tcpClientHelper {
 
     public String getAnswer() throws IOException
     {
-        return socket.receiveMessage();
+        return Common.formatString(socket.receiveMessage());
     }
 
     public void close() throws IOException
     {
         socket.close();
-    }
-    public boolean validateInput(String input)
-    {
-        Pattern pattern = Pattern.compile("^(?:\\d+|\\d+[.]\\d+)[*+-\\/](?:\\d+|\\d+[.]\\d+)$");
-        Matcher matcher = pattern.matcher(input);
-        if(matcher.find())
-        return true; 
-        else return false;
     }
 }

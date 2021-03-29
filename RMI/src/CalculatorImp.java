@@ -1,45 +1,52 @@
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+import Commons.Common;
+
 public class CalculatorImp implements Calculator{
+    class Numbers
+    {
+        public double firstNum = 0;
+        public double secondNum = 0;
+    }
 
-    double firstNum = 0;
-    double secondNum = 0;
-
-    void getNumbers(String input)
+    Numbers getNumbers(String input)
     {
         Scanner sc = new Scanner(input);
-        
-        firstNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        Numbers n = new Numbers();
+        n.firstNum = Double.parseDouble(sc.findInLine("((?:(?<=[-+\\/*^]|^)\\s*[-+])?\\d+(?:[.]\\d+)?)"));
         sc.findInLine("[^0-9 .]").trim();
-        secondNum = Double.parseDouble(sc.findInLine("(?:\\d+[.]\\d+|\\d+)"));
+        n.secondNum = Double.parseDouble(sc.findInLine("((?:(?<=[-+\\/*^]|^)\\s*[-+])?\\d+(?:[.]\\d+)?)"));
         sc.close();
+        return n;
     }
 
     @Override
     public String Add(String input) throws RemoteException {
-        getNumbers(input);
-        double answ = firstNum+secondNum;
-        return "The answer to Adding is: " + Double.toString(answ);
+        Numbers n = getNumbers(input);
+        double answ = n.firstNum+n.secondNum;
+        return Common.formatString(String.format("%.8f", answ));
     }
 
     @Override
     public String Subtract(String input) throws RemoteException {
-        getNumbers(input);
-        double answ = firstNum-secondNum;
-        return "The answer to Subtracting is: " + Double.toString(answ);
+        Numbers n = getNumbers(input);
+        double answ = n.firstNum-n.secondNum;
+        return Common.formatString(String.format("%.8f", answ));
     }
 
     @Override
     public String Multiply(String input) throws RemoteException {
-        getNumbers(input);
-        return "The answer to Multiplication is: " + Double.toString(firstNum*secondNum);
+        Numbers n = getNumbers(input);
+        double answ = n.firstNum*n.secondNum;
+        return Common.formatString(String.format("%.8f", answ));
     }
 
     @Override
     public String Divide(String input) throws RemoteException {
-        getNumbers(input);
-        return "The answer to Division is: " + Double.toString(firstNum/secondNum);
+        Numbers n = getNumbers(input);
+        double answ = n.firstNum/n.secondNum;
+        return Common.formatString(String.format("%.8f", answ));
     }
     
 }

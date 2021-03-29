@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Commons.Common;
+
 public class rmiClient {
     static String host = "localhost";
     public static void main(String[] args) {
@@ -24,7 +26,7 @@ public class rmiClient {
                 input = br.readLine();
 
                 if(input.contentEquals("exit")) break; 
-                if(!validateInput(input)) { System.out.println(input + " is invalid Input Try again"); continue;}
+                if(!Common.validateInput(input)) { System.out.println(input + " is invalid Input Try again"); continue;}
 
 
                 String op = getOperator(input);
@@ -32,16 +34,16 @@ public class rmiClient {
                 switch(op)
                 {
                 case "+":
-                    answ = stub.Add(input);
+                    answ = "The answer to Adding is: " + stub.Add(input);
                     break;
                 case "-":
-                    answ = stub.Subtract(input);
+                    answ = "The answer to Subtracting is: " + stub.Subtract(input);
                     break;
                 case "/":
-                    answ = stub.Divide(input);
+                    answ = "The answer to Multiplication is: " + stub.Divide(input);
                     break;
                 case "*":
-                    answ = stub.Multiply(input);
+                    answ = "The answer to Division is: " + stub.Multiply(input);
                     break;
                 default: answ = "error";
                     break;
@@ -57,21 +59,12 @@ public class rmiClient {
         }
         System.out.println("Program End");
     }
-    static public boolean validateInput(String input)
-    {
-        Pattern pattern = Pattern.compile("^(?:\\d+|\\d+[.]\\d+)[*+-\\/](?:\\d+|\\d+[.]\\d+)$");
-        Matcher matcher = pattern.matcher(input);
-        if(matcher.find())
-        return true; 
-        else return false;
-    }
+
 
     static public String getOperator(String input)
     {
-        Scanner sc = new Scanner(input);
-        String operator = sc.findInLine("[^0-9 .]");
-        sc.close();
-        return operator;
+        String op[] = input.split("((?:(?<=[-+\\/*^]|^)\\s*[-+])?\\d+(?:[.]\\d+)?)\s*");
+        return op[1];
 
     }
 

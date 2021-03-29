@@ -1,5 +1,7 @@
 import java.io.*;
 
+import Commons.Common;
+
 public class udpClient {
     static final String host = "localhost";
     static final String port = "2001";
@@ -15,9 +17,10 @@ public class udpClient {
                 System.out.println("Enter valid input for example 5+5 or type exit to quit");
                 String input = br.readLine();
                 if(input.contains("exit")) break;
-                if(!helper.validateInput(input)) continue;
+                if(!Common.validateInput(input)) continue;
 
                 helper.SendEquation(input);
+                
                 System.out.println("the answer is: " + helper.receiveAnswer());
 
             }

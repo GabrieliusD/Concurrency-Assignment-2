@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
-import java.util.regex.*;
+
+import Commons.Common;
 
 public class udpClientHelper {
     final udpSocket socket;
@@ -17,17 +18,10 @@ public class udpClientHelper {
 
     public String receiveAnswer() throws SocketException, IOException
     {
-        return new String(socket.receiveAnswer().getData());
+        DatagramPacket packet = socket.receiveAnswer();
+        return Common.formatString(new String(packet.getData(), 0, packet.getLength()));
     }
 
-    public boolean validateInput(String input)
-    {
-        Pattern pattern = Pattern.compile("^(?:\\d+|\\d+[.]\\d+)[*+-\\/](?:\\d+|\\d+[.]\\d+)$");
-        Matcher matcher = pattern.matcher(input);
-        if(matcher.find())
-        return true; 
-        else return false;
-    }
 
     public void close()
     {

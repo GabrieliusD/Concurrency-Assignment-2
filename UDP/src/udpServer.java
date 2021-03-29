@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
+
+import Commons.Common;
 class MultiThreadSupportUDP extends Thread
 {
     protected DatagramPacket packet;
@@ -17,11 +18,10 @@ class MultiThreadSupportUDP extends Thread
         try {
             socket.setSendLocation(packet.getAddress(), packet.getPort());
             String clientRequest = new String(packet.getData());
-            double answ = tcpServerHelper.evaluateExpression(clientRequest);
+            double answ = Common.evaluateExpression(clientRequest);
     
-            socket.SendEquation(Double.toString(answ));
+            socket.SendEquation(String.format("%.8f", answ));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
