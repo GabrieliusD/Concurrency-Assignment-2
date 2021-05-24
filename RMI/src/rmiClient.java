@@ -2,9 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import Commons.Common;
 
@@ -13,24 +11,29 @@ public class rmiClient {
     public static void main(String[] args) {
 
         try {
+            //get the registry at the location
             Registry registry = LocateRegistry.getRegistry(host);
+            //get the calculator implementation
             Calculator stub = (Calculator) registry.lookup("calculator");
+            //allow user input
             InputStreamReader is = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(is);
 
             
             String input = null;
+            //get user input until exit is entered
             while(true)
             {
                 System.out.println("Enter numbers to calculate example 5+5 or type exit to quit");
                 input = br.readLine();
-
+                //validate input
                 if(input.contentEquals("exit")) break; 
                 if(!Common.validateInput(input)) { System.out.println(input + " is invalid Input Try again"); continue;}
 
-
+                //get operator
                 String op = getOperator(input);
                 String answ;
+                //call appropriate method based on the operator
                 switch(op)
                 {
                 case "+":
@@ -49,7 +52,7 @@ public class rmiClient {
                     break;
                 }
     
-    
+                //print answer
                 System.out.println(answ);
             }
 

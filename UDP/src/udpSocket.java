@@ -5,6 +5,10 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+/**
+ * This class is used to create UDP Socket that the client and server uses to send the messages to each other
+ */
+
 
 public class udpSocket extends DatagramSocket{
     DatagramSocket socket;
